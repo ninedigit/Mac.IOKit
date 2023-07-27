@@ -1,0 +1,67 @@
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.obj
+*.rar
+*.exe
+*.pdb
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.DotSettings
+*.DotSettings.user
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+packages/*
+*.nupkg
+log-*.txt
+
+# Visual Studio 2015 (Code) cache/options directory
+.vs/
+.vscode/
+.vshistory
+
+logs/
+Dist/
+
+*.lock.json
+project.lock.json
+
+*.dat
+
+*.pubxml.user
+*.csproj.user
+/docs/api/*
+LocalPackages/*
+Packages/
+*.g.wxs
+
+node_modules/
+
+.vshistory
+.idea/
+
+# ignore password files
+*.key
+
+# ignore certificate files
+*.pfx
+
+*.wixobj
+*.wxs

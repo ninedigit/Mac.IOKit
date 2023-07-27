@@ -1,0 +1,12 @@
+﻿<Project>
+    <ItemGroup>
+        <CertKeyFile Include="$(SolutionDir)certificate.key"/>
+    </ItemGroup>
+
+    <Target Name="ReadCertKeyFile">
+        <ReadLinesFromFile File="@(CertKeyFile)">
+            <Output TaskParameter="Lines"
+                    ItemName="CertPwd" />
+        </ReadLinesFromFile>
+    </Target>
+</Project>

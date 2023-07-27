@@ -1,0 +1,38 @@
+﻿<Project>
+    <Import Project="Common.props" />
+
+    <!-- Signing assemblies -->
+    <Target Name="SigningTarget" AfterTargets="Build" DependsOnTargets="ReadCertKeyFile" Condition="$(Configuration.StartsWith('Release')) And ($([MSBuild]::IsOSPlatform('Linux')) Or $([MSBuild]::IsOSPlatform('OSX')))">
+        <Message Text="[1/3] Assembly signing ..." Importance="high" />
+        <Delete Files="$(ProjectDir)$(OutputPath)$(AssemblyName).signed.dll" />
+        <Exec Command="osslsigncode sign -pkcs12 ../certificate.pfx -pass '@(CertPwd)' -n '$(AssemblyName)' -i https://www.ninedigit.sk/ -in $(ProjectDir)$(OutputPath)$(AssemblyName).dll -out $(ProjectDir)$(OutputPath)$(AssemblyName).signed.dll" />
+        <Delete Files="$(ProjectDir)$(OutputPath)$(AssemblyName).dll" />
+        <Copy SourceFiles="$(ProjectDir)$(OutputPath)$(AssemblyName).signed.dll" DestinationFiles="$(ProjectDir)$(OutputPath)$(AssemblyName).dll" />
+        <Delete Files="$(ProjectDir)$(OutputPath)$(AssemblyName).signed.dll" />
+    </Target>
+
+    <Target Name="SigningTargetWindows" AfterTargets="Build" Condition="$(Configuration.StartsWith('Release')) And $([MSBuild]::IsOSPlatform('Windows'))">
+        <Message Text="[1/3] Assembly signing ..." Importance="high" />
+        <SignFile CertificateThumbprint="5ba440337c490688906059364d1ee0dbb825e110" SigningTarget="$(ProjectDir)$(OutputPath)$(AssemblyName).dll" TimestampUrl="http://timestamp.digicert.com?td=sha256" />
+    </Target>
+
+    <!-- Signing NuGet package -->
+    <Target Name="SignPackage" AfterTargets="Pack" DependsOnTargets="ReadCertKeyFile" Condition="$(Configuration.StartsWith('Release')) And $([MSBuild]::IsOSPlatform('Windows')) == 'false'">
+        <Message Text="[2/3] NuGet package signing ..." Importance="high" />
+        <Exec Command="dotnet nuget sign $(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg --certificate-path $(SolutionDir)certificate.pfx --certificate-password '@(CertPwd)' --timestamper http://timestamp.digicert.com?td=sha256" />
+    </Target>
+
+    <Target Name="SignPackageWindows" AfterTargets="Pack" Condition="$(Configuration.StartsWith('Release')) And $([MSBuild]::IsOSPlatform('Windows'))">
+        <Message Text="[2/3] NuGet package signing ..." Importance="high" />
+        <Exec Command="nuget sign $(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg -CertificateFingerprint &quot;5ba440337c490688906059364d1ee0dbb825e110&quot; -Timestamper http://timestamp.digicert.com?td=sha256" />
+    </Target>
+
+    <!-- Copy NuGet packages -->
+    <Target Name="CopyNuGetToDist" AfterTargets="SignPackage;SignPackageWindows" Condition="$(Configuration.StartsWith('Release'))">
+        <Message Text="[3/3] NuGet package copying ..." Importance="high" />
+        <Message Text="Copied $(AssemblyName).$(PackageVersion).nupkg to $(SolutionDir)Dist" Importance="high" />
+        <Copy SourceFiles="$(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)Dist" />
+        <Copy SourceFiles="$(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)Dist" />
+    </Target>
+    
+</Project>

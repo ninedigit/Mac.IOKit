@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\CreateNuGetPackage.props" />
+    <Import Project="..\Versions.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>9.0</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>NineDigit.Mac.IOKit</PackageId>
+        <Title>Mac IOKit</Title>
+        <Authors>Tomáš Peťovský</Authors>
+        <Company>Nine Digit, s.r.o.</Company>
+        <Version>$(Version)</Version>
+        <InformationalVersion>$(InformationalVersion)</InformationalVersion>
+        <PackageVersion>$(InformationalVersion)</PackageVersion>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <Description>.NET port of IOKit.</Description>
+        <PackageDescription>.NET port of IOKit.</PackageDescription>
+        <PackageTags>serial port device mac iokit</PackageTags>
+        <PackageProjectUrl>https://www.nuget.org/packages/NineDigit.Mac.IOKit</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ninedigit/Mac.IOKit.git</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <IncludeSymbols>true</IncludeSymbols>
+        <Copyright>(c) 2023</Copyright>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="NineDigit.Mac.IOKit.xml" />
+        <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+
+</Project>
