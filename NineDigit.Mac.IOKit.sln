@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineDigit.Mac.IOKit", "NineDigit.Mac.IOKit\NineDigit.Mac.IOKit.csproj", "{F7F05736-F9F1-464E-BAB8-4B875EFF2874}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineDigit.Mac.IOKit.Examples", "NineDigit.Mac.IOKit.Examples\NineDigit.Mac.IOKit.Examples.csproj", "{BC917AE0-0092-40CA-B896-BF63FF16E462}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{F7F05736-F9F1-464E-BAB8-4B875EFF2874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7F05736-F9F1-464E-BAB8-4B875EFF2874}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7F05736-F9F1-464E-BAB8-4B875EFF2874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC917AE0-0092-40CA-B896-BF63FF16E462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC917AE0-0092-40CA-B896-BF63FF16E462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC917AE0-0092-40CA-B896-BF63FF16E462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC917AE0-0092-40CA-B896-BF63FF16E462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
