@@ -4,7 +4,7 @@
     <Import Project="..\Versions.props" />
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -30,7 +30,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <IncludeSymbols>true</IncludeSymbols>
-        <Copyright>(c) 2023</Copyright>
+        <Copyright>(c) 2025</Copyright>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
