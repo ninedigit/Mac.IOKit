@@ -1,12 +1,26 @@
 ﻿<Project>
-    <Import Project="Common.props" />
+    <Import Project="$(SolutionDir)CodeSignTool.props" />
+    <Import Project="$(SolutionDir)Common.props" />
+
+    <!-- Signing assemblies -->
+    <Target Name="SigningTarget" AfterTargets="Build">
+        <Message Text="[1/3] Assembly signing ..." Importance="high" />
+        <Exec Command="CodeSignTool sign -input_file_path=$(ProjectDir)$(OutputPath)$(AssemblyName).dll -credential_id=$(CodeSignToolCredentialId) -username $(CodeSignToolUserName) -password &quot;$(CodeSignToolPassword)&quot; -override -totp_secret=&quot;$(CodeSignToolTotpSecret)&quot;" />
+    </Target>
+
+    <!-- Signing NuGet package -->
+    <Target Name="SignPackage" AfterTargets="Pack">
+        <Message Text="[2/3] NuGet package signing ..." Importance="high" />
+        <!-- $(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg -->
+        <Exec Command="CodeSignTool sign -input_file_path=$(MSBuildProjectDirectory)/$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg -credential_id=$(CodeSignToolCredentialId) -username $(CodeSignToolUserName) -password &quot;$(CodeSignToolPassword)&quot; -override -totp_secret=&quot;$(CodeSignToolTotpSecret)&quot;" />
+    </Target>
 
     <!-- Copy NuGet packages -->
-    <Target Name="CopyNuGetToDist" AfterTargets="Pack" Condition="$(Configuration.StartsWith('Release'))">
+    <Target Name="CopyNuGetToDist" AfterTargets="SignPackage">
         <Message Text="[3/3] NuGet package copying ..." Importance="high" />
         <Message Text="Copied $(AssemblyName).$(PackageVersion).nupkg to $(SolutionDir)Dist" Importance="high" />
-        <Copy SourceFiles="$(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)Dist" />
-        <Copy SourceFiles="$(ProjectDir)$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)Dist" />
+        <Copy SourceFiles="$(MSBuildProjectDirectory)/$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)Dist" />
+        <Copy SourceFiles="$(MSBuildProjectDirectory)/$(BaseOutputPath)$(Configuration)\$(AssemblyName).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)Dist" />
     </Target>
     
 </Project>
